@@ -67,7 +67,7 @@ const COUNTRY_RE = /^[a-zA-Z]{2}$/;
  *   HTTPS://WWW.Example.Com:443/page/?b=2&utm_source=x&a=1#top
  *                                                         -> https://example.com/page?a=1&b=2
  *   https://example.com/page                              -> https://example.com/page
- *   https://github.com/NostrDanish/Crwalstr               -> unchanged (path case-sensitive)
+ *   https://github.com/SIP-01/Crwalstr               -> unchanged (path case-sensitive)
  */
 export function normalizeIndexUrl(input: string): string | null {
   let url: URL;
