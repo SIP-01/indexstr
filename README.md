@@ -4,9 +4,9 @@
   <img src="public/brand/logo.png" alt="Indexstr — a spider sitting in its web" width="192" height="192">
 </p>
 
-**Indexstr — the decentralized web indexing network.** Turn spare browser, mobile and desktop capacity into a censorship-resistant, Nostr-powered web index. A fork/evolution of [Crawlstr](https://github.com/NostrDanish/Crwalstr) that ships with **curated URL collections built in** and coordinates crawl work across nodes **without any central server**. No backend. No tracking. No accounts required.
+**Indexstr — the decentralized web indexing network.** Turn spare browser, mobile and desktop capacity into a censorship-resistant, Nostr-powered web index. A fork/evolution of [Crawlstr](https://github.com/SIP-01/Crwalstr) that ships with **curated URL collections built in** and coordinates crawl work across nodes **without any central server**. No backend. No tracking. No accounts required.
 
-Load a collection, press **Start Crawling**, and every page becomes a **kind 39697 web index observation** on the shared [SIP-01](https://github.com/NostrDanish/SIP-01) index — instantly searchable by [0xSearchstr](https://0xsearchstr.shakespeare.wtf), [0xPresearchstr](https://presearchstr.shakespeare.wtf), [UNCAGED](https://uncaged.shakespeare.wtf), and any future SIP-01 compatible client.
+Load a collection, press **Start Crawling**, and every page becomes a **kind 39697 web index observation** on the shared [SIP-01](https://github.com/SIP-01/SIP-01) index — instantly searchable by [0xSearchstr](https://0xsearchstr.shakespeare.wtf), [0xPresearchstr](https://presearchstr.shakespeare.wtf), [UNCAGED](https://uncaged.shakespeare.wtf), and any future SIP-01 compatible client.
 
 ## A Network, Not Just a Crawler
 
@@ -217,7 +217,7 @@ Indexstr publishes **SIP-01 (Search Index Protocol)** events — the same protoc
 | `type` | Extension registry — `repository` for GitHub/GitLab, else `page` |
 | `alt` | Human-readable description (the `alt` convention, spec §12.3) |
 
-Full schema documentation: [NIP.md](NIP.md) · Canonical spec: [SIP-01 v1.2](https://github.com/NostrDanish/SIP-01/blob/main/public/spec/SIP-01.md)
+Full schema documentation: [NIP.md](NIP.md) · Canonical spec: [SIP-01 v1.2](https://github.com/SIP-01/SIP-01/blob/main/public/spec/SIP-01.md)
 
 ### Relay Pool
 
@@ -350,32 +350,12 @@ Next phases, in order of value:
 
 | Project | Role | URL |
 |---------|------|-----|
-| **Indexstr** (this) | Browser indexer w/ collections → SIP-01 publisher | [github.com/NostrDanish/indexstr](https://github.com/NostrDanish/indexstr) |
-| [SIP-01](https://github.com/NostrDanish/SIP-01) | Canonical spec + explorer (consumes our kind 16919 heartbeats) | — |
-| [Crawlstr](https://github.com/NostrDanish/Crwalstr) | The original browser crawler | [crawlstr.shakespeare.wtf](https://crawlstr.shakespeare.wtf) |
-| [0xSearchstr](https://github.com/NostrDanish/0xSearchstr) | Search engine → SIP-01 reader | [0xsearchstr.shakespeare.wtf](https://0xsearchstr.shakespeare.wtf) |
-| [0xPresearchstr](https://github.com/NostrDanish/0xPresearchstr) | Community fork with keyword staking | [presearchstr.shakespeare.wtf](https://presearchstr.shakespeare.wtf) |
-| [UNCAGED-ENGINE](https://github.com/NostrDanish/UNCAGED-ENGINE) | Minimal search engine template | [uncaged.shakespeare.wtf](https://uncaged.shakespeare.wtf) |
-
----
-
-## Privacy, Honestly
-
-- **No login required** to index. No account. No tracking.
-- Observations are signed by a **per-device anonymous keypair**, never your personal Nostr identity.
-- Events contain **page metadata only** — never search queries, never browsing history.
-- Your crawl history and the collection cache stay in your browser (IndexedDB). Clearing browser data removes them.
-- Relay operators see the observation event and your IP address — that's how Nostr works. Key separation is guaranteed; network anonymity is not.
-- Use a VPN or Tor — we recommend [NymVPN](https://nym.com).
-
-**Support us:** [https://nym.com/pricing?ref=aYPKAFmGpJi](https://nym.com/pricing?ref=aYPKAFmGpJi)
-
----
-
-## License
-
-MIT
-
----
-
-*Vibed with [Shakespeare](https://shakespeare.diy)*
+| **Indexstr** (this) | Browser indexer w/ collections | https://github.com/SIP-01/indexstr |
+| **0xSearchstr** | Search engine (reads index) | https://github.com/SIP-01/0xSearchstr |
+| **0xPresearchstr** | Sister search engine | https://github.com/SIP-01/0xPresearchstr |
+| **UNCAGED-ENGINE** | Reference engine | https://github.com/SIP-01/UNCAGED-ENGINE |
+| **UNCAGED-Index-Relay** | Validating relay | https://github.com/SIP-01/UNCAGED-Index-Relay |
+| **SIP-01** | Canonical spec | https://github.com/SIP-01/SIP-01 |
+| **Crawlstr** | Original crawler | https://github.com/SIP-01/Crwalstr |
+| **SIP-Booster-Relay** | Serverless relay cohort | https://github.com/SIP-01/SIP-Booster-Relay |
+| **SIP-dashboard** | Network telemetry | https://github.com/SIP-01/SIP-dashboard |
