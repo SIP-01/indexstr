@@ -352,10 +352,10 @@ Next phases, in order of value:
 |---------|------|-----|
 | **Indexstr** (this) | Browser indexer w/ collections | https://github.com/SIP-01/indexstr |
 | **0xSearchstr** | Search engine (reads index) | https://github.com/SIP-01/0xSearchstr |
-| **0xPresearchstr** | Sister search engine | https://github.com/SIP-01/0xPresearchstr |
-| **UNCAGED-ENGINE** | Reference engine | https://github.com/SIP-01/UNCAGED-ENGINE |
+| **0xPresearchstr** | Search engine (reads index) | https://github.com/SIP-01/0xPresearchstr |
+| **UNCAGED-ENGINE** | Reference search engine | https://github.com/SIP-01/UNCAGED-ENGINE |
 | **UNCAGED-Index-Relay** | Validating relay | https://github.com/SIP-01/UNCAGED-Index-Relay |
 | **SIP-01** | Canonical spec | https://github.com/SIP-01/SIP-01 |
-| **Crawlstr** | Original crawler | https://github.com/SIP-01/Crwalstr |
 | **SIP-Booster-Relay** | Serverless relay cohort | https://github.com/SIP-01/SIP-Booster-Relay |
 | **SIP-dashboard** | Network telemetry | https://github.com/SIP-01/SIP-dashboard |
+| **Crawlstr v3** | Scout crawler | https://github.com/SIP-01/Crawlstr-v3 |
