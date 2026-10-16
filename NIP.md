@@ -1,14 +1,14 @@
 # Indexstr — Event Kinds & Protocol Reference
 
-Indexstr is a **browser-based web indexer** (a [Crawlstr](https://github.com/NostrDanish/Crwalstr) fork)
+Indexstr is a **browser-based web indexer** (a [Crawlstr](https://github.com/SIP-01/Crwalstr) fork)
 that ships with **curated URL collections** and publishes to the **shared SIP-01
 (Search Index Protocol) index** on Nostr. It implements the **canonical SIP-01
-specification v1.2** — [github.com/NostrDanish/SIP-01](https://github.com/NostrDanish/SIP-01)
+specification v1.2** — [github.com/SIP-01/SIP-01](https://github.com/SIP-01/SIP-01)
 (`public/spec/SIP-01.md`) — byte-compatibly with
-[0xSearchstr](https://github.com/NostrDanish/0xSearchstr),
-[0xPresearchstr](https://github.com/NostrDanish/0xPresearchstr),
-[UNCAGED-ENGINE](https://github.com/NostrDanish/UNCAGED-ENGINE), and the
-[UNCAGED Index Relay](https://github.com/NostrDanish/UNCAGED-Index-Relay).
+[0xSearchstr](https://github.com/SIP-01/0xSearchstr),
+[0xPresearchstr](https://github.com/SIP-01/0xPresearchstr),
+[UNCAGED-ENGINE](https://github.com/SIP-01/UNCAGED-ENGINE), and the
+[UNCAGED Index Relay](https://github.com/SIP-01/UNCAGED-Index-Relay).
 
 ## Protocol Compatibility
 
@@ -150,7 +150,7 @@ public metadata."*
 |-----|-------|---------|
 | `network` | always `clearnet` | A browser crawler can only reach the clearnet |
 | `type` | `page` / `article` / `blog` / `news` / `docs` / `wiki` / `forum` / `repository` / `product` / `video` / `audio` / `homepage` | Derived document type (see Enrichment) |
-| `platform` | e.g. `github`, `youtube`, `wikipedia` | Emitted for well-known hosts only |
+| `platform` | `github`, `youtube`, `wikipedia` | Emitted for well-known hosts only |
 
 ## Enrichment (derived `t` topics + `type`)
 
@@ -321,10 +321,10 @@ nothing, and the node loses no work.
 
 ## References
 
-- **Canonical spec (v1.2):** [NostrDanish/SIP-01](https://github.com/NostrDanish/SIP-01) — `public/spec/SIP-01.md`
+- **Canonical spec (v1.2):** [SIP-01/SIP-01](https://github.com/SIP-01/SIP-01) — `public/spec/SIP-01.md`
   (v1.2 was a NIP-reference audit; the wire format is unchanged and `v` stays `"1"`)
-- **Implementation guide:** [SIP-01/docs/IMPLEMENTATION-GUIDE.md](https://github.com/NostrDanish/SIP-01/blob/main/docs/IMPLEMENTATION-GUIDE.md)
-- **Reference port:** [SIP-01/src/lib/sip01-utils.ts](https://github.com/NostrDanish/SIP-01/blob/main/src/lib/sip01-utils.ts)
-- **0xSearchstr NIP.md:** [legacy schemas, community submissions, Nostra interop](https://github.com/NostrDanish/0xSearchstr/blob/main/NIP.md)
-- **UNCAGED-ENGINE NIP.md:** [reference implementation schemas](https://github.com/NostrDanish/UNCAGED-ENGINE/blob/main/NIP.md)
-- **UNCAGED Index Relay:** [validating relay profile](https://github.com/NostrDanish/UNCAGED-Index-Relay)
+- **Implementation guide:** [SIP-01/docs/IMPLEMENTATION-GUIDE.md](https://github.com/SIP-01/SIP-01/blob/main/docs/IMPLEMENTATION-GUIDE.md)
+- **Reference port:** [SIP-01/src/lib/sip01-utils.ts](https://github.com/SIP-01/SIP-01/blob/main/src/lib/sip01-utils.ts)
+- **0xSearchstr NIP.md:** [legacy schemas, community submissions, Nostra interop](https://github.com/SIP-01/0xSearchstr/blob/main/NIP.md)
+- **UNCAGED-ENGINE NIP.md:** [reference implementation schemas](https://github.com/SIP-01/UNCAGED-ENGINE/blob/main/NIP.md)
+- **UNCAGED Index Relay:** [validating relay profile](https://github.com/SIP-01/UNCAGED-Index-Relay)
