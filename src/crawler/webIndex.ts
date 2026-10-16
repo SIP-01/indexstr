@@ -1,6 +1,6 @@
 /**
  * SIP-01 (Search Index Protocol) — Indexstr publisher implementation.
- * Canonical spec: https://github.com/NostrDanish/SIP-01 (public/spec/SIP-01.md)
+ * Canonical spec: https://github.com/SIP-01/SIP-01 (public/spec/SIP-01.md)
  *
  * Byte-compatible with the canonical reference port
  * (SIP-01 repo, src/lib/sip01-utils.ts), which is itself byte-compatible with:
@@ -230,7 +230,7 @@ function extensionTags(input: IndexObservationInput): string[][] {
   if (country && COUNTRY_RE.test(country)) tags.push(['country', country.toUpperCase()]);
 
   const mime = input.mime?.trim().toLowerCase();
-  if (mime && /^[a-z0-9][a-z0-9!#$&^_.+-]{0,126}\/[a-z0-9][a-z0-9!#$&^_.+-]{0,126}(;\s*[^\s;=]+=[^\s;]+)*$/.test(mime)) {
+  if (mime && /^[a-z0-9][a-z0-9!#$&'*.+-]{0,126}\/[a-z0-9][a-z0-9!#$&'*.+-]{0,126}(?:;\s*[^\s;=,]+?=[^\s;]+)*$/.test(mime)) {
     tags.push(['mime', mime]);
   }
 
