@@ -182,7 +182,7 @@ export class CrawlerEngine {
     this emitStats();
 
     // Announce this node to the network, then keep the heartbeat fresh.
-    void this.publishHeartbeat();
+    void this publishHeartbeat();
     this.heartbeatTimer = setInterval(() => void this publishHeartbeat(), HEARTBEAT_INTERVAL_MS);
 
     // Flush anything held from an offline period, now and periodically.
@@ -348,7 +348,7 @@ export class CrawlerEngine {
           continue;
         }
 
-        await addToQueue({
+        await addToQueue([
           url: normalized,
           priority: 0.5,
           depth: 0,
@@ -390,7 +390,7 @@ export class CrawlerEngine {
     const normalizedUrl = normalizeIndexUrl(url);
     if (!normalizedUrl) return;
     if (isPrivateUrl(normalizedUrl)) return; // SSRF queue-admission check
-    await addToQueue({
+    await addToQueue([
       url: normalizedUrl,
       priority,
       depth: 0,
@@ -417,7 +417,7 @@ export class CrawlerEngine {
     const jobs: CrawlJob[] = [];
     for (const url of urls) {
       if (crawled.has(url)) continue;
-      jobs.push({
+      jobs.push([
         url,
         priority: 0.9,
         depth: 0,
