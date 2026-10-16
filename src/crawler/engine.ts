@@ -59,7 +59,7 @@ const DISCOVERY_DOMAIN_CAP = 500;
 const INTAKE_DOMAIN_CAP = 200;
 
 /** Per-indexer intake cap (Sybil guard — one flooding pubkey can't turn
- *  every node into its crawl army even across thousands of domains). */
+ * every node into its crawl army even across thousands of domains). */
 const INTAKE_INDEXER_CAP = 100;
 
 /**
@@ -148,7 +148,7 @@ export class CrawlerEngine {
   private lastDomain = '';
 
   constructor(settings?: Partial<CrawlerSettings>) {
-    const stored = localStorage.getItem('indexstr-settings');
+    const stored = localStorage.getItem('indexstr-settings);
     this.settings = {
       ...DEFAULT_SETTINGS,
       ...(stored ? JSON.parse(stored) : {}),
@@ -178,12 +178,12 @@ export class CrawlerEngine {
     if (this.running) return;
     this.running = true;
     this.startTime = Date.now();
-    this.abortController = new AbortController();
-    this.emitStats();
+    this abortController = new AbortController();
+    this emitStats();
 
     // Announce this node to the network, then keep the heartbeat fresh.
     void this.publishHeartbeat();
-    this.heartbeatTimer = setInterval(() => void this.publishHeartbeat(), HEARTBEAT_INTERVAL_MS);
+    this.heartbeatTimer = setInterval(() => void this publishHeartbeat(), HEARTBEAT_INTERVAL_MS);
 
     // Flush anything held from an offline period, now and periodically.
     void this.flushOutbox();
@@ -203,7 +203,7 @@ export class CrawlerEngine {
 
   async stop(): Promise<void> {
     this.running = false;
-    this.abortController?.abort();
+    this abortController?.abort();
     if (this.heartbeatTimer) clearInterval(this.heartbeatTimer);
     if (this.outboxTimer) clearInterval(this.outboxTimer);
     if (this.intakeTimer) clearInterval(this.intakeTimer);
@@ -214,7 +214,7 @@ export class CrawlerEngine {
       window.removeEventListener('online', this.onlineHandler);
       this.onlineHandler = null;
     }
-    this.emitStats();
+    this emitStats();
   }
 
   isRunning(): boolean {
@@ -254,7 +254,7 @@ export class CrawlerEngine {
       const delivered = await flushObservationOutbox();
       if (delivered > 0) this.stats.published += delivered;
       this.stats.outboxPending = await getOutboxSize();
-      this.emitStats();
+      this emitStats();
     } catch (error) {
       console.debug('[Crawler] Outbox flush failed:', error);
     }
@@ -285,7 +285,7 @@ export class CrawlerEngine {
         : Math.floor(Date.now() / 1000) - 600;
 
       const events = await networkQueryFn(since, 250);
-      const ownPubkey = getIndexerIdentity().pubkeyHex;
+      const own Publickey = getIndexerIdentity().pubkeyHex;
       const crawled = await getCrawledUrlSet();
       const nowS = Math.floor(Date.now() / 1000);
 
@@ -294,7 +294,7 @@ export class CrawlerEngine {
       let rejected = 0;
 
       for (const event of events) {
-        if (event.pubkey === ownPubkey) continue;
+        if (event.pubkey === own Publickey) continue;
         if (event.created_at > newest) newest = event.created_at;
 
         // Structural sanity: right kind, widx: d-tag, u tag, not ancient.
@@ -366,7 +366,7 @@ export class CrawlerEngine {
         this.stats.intakeRejected += rejected;
         this.stats.queueSize = await getQueueSize();
         this.stats.homeShardJobs = await getQueueShardCount(this.homeShard);
-        this.emitStats();
+        this emitStats();
       }
     } catch (error) {
       console.debug('[Crawler] Network intake failed:', error);
@@ -400,7 +400,7 @@ export class CrawlerEngine {
     });
     this.stats.queueSize = await getQueueSize();
     this.stats.homeShardJobs = await getQueueShardCount(this.homeShard);
-    this.emitStats();
+    this emitStats();
   }
 
   /**
@@ -429,14 +429,14 @@ export class CrawlerEngine {
     await addManyToQueue(jobs, onProgress);
     this.stats.queueSize = await getQueueSize();
     this.stats.homeShardJobs = await getQueueShardCount(this.homeShard);
-    this.emitStats();
+    this emitStats();
     return jobs.length;
   }
 
   async clearAll(): Promise<void> {
     await clearQueue();
     this.stats.queueSize = 0;
-    this.emitStats();
+    this emitStats();
   }
 
   async getRecentCrawls(limit = 20) {
@@ -473,14 +473,14 @@ export class CrawlerEngine {
         } catch {
           this.lastDomain = '';
         }
-        this.emitStats();
+        this emitStats();
 
         const crawlDelay = this.settings.respectRobots ? await getCrawlDelay(job.url) : 0;
         await this.sleep(Math.max(crawlDelay, this.settings.ecoMode ? 8000 : 3000));
       } catch (error) {
         console.error('[Crawler] Loop error:', error);
         this.stats.errors++;
-        this.emitStats();
+        this emitStats();
         await this.sleep(10000);
       }
     }
@@ -541,184 +541,4 @@ export class CrawlerEngine {
     }
     if (!result) {
       this.stats.errors++;
-      this.stats.fetchFailed++;
-      job.attempts++;
-      if (job.attempts >= 3) {
-        await removeFromQueue(job.url);
-      } else {
-        job.nextAttempt = now + Math.pow(2, job.attempts) * 60000;
-        await addToQueue(job);
-      }
-      return;
-    }
-
-    // Parse content
-    const parsed = parsePage(result.html, job.url);
-
-    // Skip pages with very little content
-    if (parsed.wordCount < 10) {
-      await removeFromQueue(job.url);
-      this.stats.skipped++;
-      this.stats.thinContent++;
-      return;
-    }
-
-    // Hash content for local dedup + change detection
-    const localHash = await hashContent(parsed.text);
-
-    // Duplicate-content check — but the page's OWN previous hash is not a
-    // duplicate, it's an unchanged recrawl (freshness signal).
-    const duplicate = await findByHash(localHash);
-    if (duplicate && duplicate !== job.url) {
-      await removeFromQueue(job.url);
-      this.stats.skipped++;
-      this.stats.duplicates++;
-      return;
-    }
-    const changed = !existing || existing.contentHash !== localHash;
-
-    // Enrichment: derive topics + document type from page evidence.
-    // Deterministic — any Indexstr node produces the same tags for the
-    // same page, which is what makes them a verifiable network signal.
-    const enrichment = enrichPage(parsed, job.url);
-
-    // Freshness bookkeeping + recrawl scheduling
-    const freshness = nextFreshness(existing, changed, now);
-    await markCrawled(job.url, localHash, parsed.title, {
-      topics: enrichment.topics,
-      ...freshness,
-    });
-    await removeFromQueue(job.url);
-    // Schedule the recrawl (low priority; scheduler holds it until due).
-    await addToQueue({
-      url: job.url,
-      priority: 0.3,
-      depth: job.depth,
-      attempts: 0,
-      followLinks: job.followLinks,
-      shard: job.shard ?? urlShard(job.url),
-      nextAttempt: freshness.recrawlDue,
-    });
-
-    // Update stats
-    this.stats.pagesIndexed++;
-    this.stats.bandwidthUsed += result.size;
-    if (result.viaProxy) this.stats.viaProxy++;
-    else this.stats.viaDirect++;
-    this.stats.queueSize = await getQueueSize();
-
-    // Publish SIP-01 v1.2 observation to the shared index (kind 39697).
-    // Canonical spec: https://github.com/NostrDanish/SIP-01
-    // Recrawls republish even when unchanged: same d/x, fresh created_at —
-    // the network's "still alive" signal. When no relay accepts it, the
-    // event waits in the outbox — a dead network never costs an observation.
-    const host = new URL(job.url).hostname;
-    const platform = detectPlatform(host);
-    const published = await publishIndexObservation({
-      url: job.url,
-      title: parsed.title,
-      description: parsed.description,
-      image: parsed.image,
-      language: parsed.language,
-      published: parsed.published,
-      source: 'indexstr/1',
-      // Extension registry (spec §9.2): a browser crawler only ever sees clearnet.
-      network: 'clearnet',
-      ...(platform ? { platform } : {}),
-      type: platform === 'github' || platform === 'gitlab' ? 'repository' : enrichment.docType,
-      // Enriched topic tags (spec §6 `t`) — the classification layer.
-      tags: enrichment.topics,
-    });
-    if (published) {
-      if (published.delivered > 0) this.stats.published++;
-      this.stats.outboxPending = await getOutboxSize();
-    }
-
-    // Self-expanding index: discovered links enter the queue sharded like
-    // everything else, so organic growth is distributed across nodes too.
-    // (Collection-seeded jobs index the exact URL only — their crawl plan
-    // is already curated.)
-    if (job.followLinks !== false && job.depth < this.settings.maxDepth) {
-      const maxLinks = this.settings.ecoMode ? 5 : 10;
-      let added = 0;
-      for (const link of parsed.links.slice(0, maxLinks)) {
-        const normalized = normalizeIndexUrl(link);
-        if (!normalized) continue;
-
-        // Don't re-crawl same URL
-        if (normalized === job.url) continue;
-
-        // Trap + domain guards: discovery must not explode the queue.
-        if (isLikelyCrawlTrap(normalized)) {
-          this.stats.trapsBlocked++;
-          continue;
-        }
-        if (!this.discoveryGuard.allow(normalized)) continue;
-
-        await addToQueue({
-          url: normalized,
-          priority: job.priority * 0.8,
-          depth: job.depth + 1,
-          discoveredFrom: job.url,
-          attempts: 0,
-          shard: urlShard(normalized),
-        });
-        added++;
-      }
-      this.stats.discovered += added;
-      this.stats.queueSize = await getQueueSize();
-      this.stats.homeShardJobs = await getQueueShardCount(this.homeShard);
-    }
-  }
-
-  private async canCrawl(): Promise<boolean> {
-    // Check battery
-    if ('getBattery' in navigator) {
-      try {
-        const battery = await (navigator as unknown as { getBattery(): Promise<{ level: number; charging: boolean }> }).getBattery();
-        if (battery.level < 0.15 && !battery.charging) {
-          return false;
-        }
-        if (this.settings.chargingOnly && !battery.charging) {
-          return false;
-        }
-      } catch {
-        // Battery API not available, continue
-      }
-    }
-
-    // Check network
-    if ('connection' in navigator) {
-      const conn = (navigator as unknown as { connection?: { effectiveType?: string; type?: string } }).connection;
-      if (conn?.effectiveType === 'slow-2g' || conn?.effectiveType === '2g') {
-        return false;
-      }
-      if (this.settings.wifiOnly && conn?.type !== 'wifi' && conn?.effectiveType !== '4g') {
-        return false;
-      }
-    }
-
-    // Check bandwidth limit
-    if (this.stats.bandwidthUsed > this.settings.maxBandwidthMB * 1024 * 1024) {
-      return false;
-    }
-
-    // Global pages/hour budget (sliding window, session-scoped). The audit
-    // guarantee: Indexstr can never silently out-crawl its configuration.
-    if (pagesPerHourExceeded(this.settings.maxPagesPerHour)) {
-      return false;
-    }
-
-    return true;
-  }
-
-  private sleep(ms: number): Promise<void> {
-    return new Promise(resolve => {
-      const timeout = setTimeout(resolve, ms);
-      this.abortController?.signal.addEventListener('abort', () => {
-        clearTimeout(timeout);
-        resolve();
-      });
-    });
-  }
-}
+      this.stats.[+6265 bytes at .content[1].resource.text]
