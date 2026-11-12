@@ -154,7 +154,6 @@ export async function publishIndexObservation(
       created_at: Math.floor(Date.now() / 1000),
       tags: template.tags,
       content: template.content,
-      pubkey: getIndexerIdentity().pubkeyHex,
     },
     getIndexerSecretKey(),
   );
