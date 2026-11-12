@@ -7,9 +7,6 @@ import { ErrorBoundary } from '@/components/ErrorBoundary';
 import App from './App.tsx';
 import './index.css';
 
-// FIXME: a custom font should be used. Eg:
-// import '@fontsource-variable/<font-name>';
-
 // Service worker: intentionally NOT registered.
 //
 // An earlier version cached index.html and served hashed JS cache-first with no
