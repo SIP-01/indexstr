@@ -58,12 +58,11 @@ function writeStored(secretHex: string): void {
 
 function newSecretHex(): string {
   const sk = generateSecretKey();
-  return typeof sk === 'string' ? sk.toLowerCase() : bytesToHex(sk as Uint8Array);
+  return bytesToHex(sk);
 }
 
 function toIdentity(secretHex: string, fresh: boolean): IndexerIdentity {
-  const pub = getPublicKey(hexToBytes(secretHex));
-  const pubkeyHex = typeof pub === 'string' ? pub : bytesToHex(pub as Uint8Array);
+  const pubkeyHex = getPublicKey(hexToBytes(secretHex));
   return {
     secretHex,
     pubkeyHex,
