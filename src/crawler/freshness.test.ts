@@ -24,12 +24,14 @@ describe('nextFreshness', () => {
 
     // Each interval is capped at 30 days. Compare with the scheduled
     // recrawl time, not the first crawl: elapsed time accumulates.
+    let finalInterval = 0;
     for (let i = 0; i < 10; i++) {
       const previousDue = state.recrawlDue;
       state = nextFreshness(state, false, previousDue);
-      expect(state.recrawlDue - previousDue).toBeLessThanOrEqual(30 * DAY);
+      finalInterval = state.recrawlDue - previousDue;
+      expect(finalInterval).toBeLessThanOrEqual(30 * DAY);
     }
-    expect(state.recrawlDue - (state.recrawlDue - 30 * DAY)).toBe(30 * DAY);
+    expect(finalInterval).toBe(30 * DAY);
   });
 
   test('a change resets the backoff', () => {
