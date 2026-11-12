@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { normalizeIndexUrl, documentId, contentHash } from './webIndex';
+import { normalizeIndexUrl, documentId, contentHash, buildIndexEvent } from './webIndex';
 
 /**
  * SIP-01 §7 normalization — the ecosystem-critical property: every
@@ -148,5 +148,22 @@ describe('SIP-01 §13 test vectors (exact hashes)', () => {
 
   test.each(X_VECTORS)('derives the exact x tag for "$title"', async ({ title, description, x }) => {
     expect(await contentHash(title, description)).toBe(x);
+  });
+});
+
+
+describe('SIP-01 v1.3 capability references', () => {
+  test('emits role, repeatable proto tags and a kind-39698 pointer', async () => {
+    const event = await buildIndexEvent({
+      url: 'https://example.com/mcp',
+      title: 'Example tool',
+      role: 'tool',
+      proto: ['mcp', 'http'],
+      capabilityAddress: '39698:' + 'a'.repeat(64) + ':example-tool',
+    });
+    expect(event?.tags).toContainEqual(['role', 'tool']);
+    expect(event?.tags).toContainEqual(['proto', 'mcp']);
+    expect(event?.tags).toContainEqual(['proto', 'http']);
+    expect(event?.tags).toContainEqual(['a', '39698:' + 'a'.repeat(64) + ':example-tool']);
   });
 });
