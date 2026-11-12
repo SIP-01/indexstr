@@ -25,7 +25,7 @@ export async function shouldCrawlUrl(url: string): Promise<boolean> {
     if (isPrivateHost(urlObj.hostname)) return false;
     const robotsUrl = `${urlObj.protocol}//${urlObj.host}/robots.txt`;
 
-    let rules = await getRobotsRules(robotsUrl);
+    const rules = await getRobotsRules(robotsUrl);
     if (!rules) return true; // No robots.txt = allowed
 
     const path = urlObj.pathname;
