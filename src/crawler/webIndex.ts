@@ -56,6 +56,9 @@ const LANG_RE = /^[a-z]{2}$/;
 
 /** ISO 3166-1 alpha-2 country code shape (spec §9.2, `country` tag). */
 const COUNTRY_RE = /^[a-zA-Z]{2}$/;
+const CAPABILITY_ADDRESS_RE = /^39698:[0-9a-f]{64}:[a-z0-9][a-z0-9-]{0,63}$/;
+const CAPABILITY_ROLES = new Set(['agent', 'tool', 'model', 'api', 'compute', 'dataset', 'gateway']);
+const CAPABILITY_PROTOCOLS = new Set(['mcp', 'http', 'contextvm', 'nostr', 'a2a']);
 
 /**
  * Normalize a URL per SIP-01 §7. Implementations across the ecosystem MUST
@@ -146,6 +149,9 @@ export interface IndexObservationInput {
   network?: string;  // clearnet | tor | i2p (Indexstr only ever emits clearnet)
   country?: string;  // ISO 3166-1 alpha-2
   mime?: string;     // document media type
+  role?: string;
+  proto?: string | string[];
+  capabilityAddress?: string;
 }
 
 export interface UnsignedIndexEvent {
@@ -210,6 +216,9 @@ export async function buildIndexEvent(
     ...(input.source
       ? [['source', input.source.trim().slice(0, MAX_SOURCE_LEN)] as string[]]
       : []),
+    ...(input.capabilityAddress && CAPABILITY_ADDRESS_RE.test(input.capabilityAddress)
+      ? [['a', input.capabilityAddress]]
+      : []),
     ...extensionTags(input),
     ['alt', alt],
   ];
@@ -224,6 +233,11 @@ function extensionTags(input: IndexObservationInput): string[][] {
   for (const name of ['type', 'platform', 'category', 'network'] as const) {
     const value = input[name]?.trim().toLowerCase();
     if (value && EXTENSION_VALUE_RE.test(value)) tags.push([name, value]);
+  }
+  if (input.role && CAPABILITY_ROLES.has(input.role)) tags.push(['role', input.role]);
+  const protocols = Array.isArray(input.proto) ? input.proto : input.proto ? [input.proto] : [];
+  for (const value of protocols) {
+    if (CAPABILITY_PROTOCOLS.has(value)) tags.push(['proto', value]);
   }
 
   const country = input.country?.trim();
