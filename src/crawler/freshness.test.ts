@@ -22,11 +22,14 @@ describe('nextFreshness', () => {
     state = nextFreshness(state, false, state.recrawlDue);
     expect(state.unchangedStreak).toBe(2);
 
-    // Walk to the cap
+    // Each interval is capped at 30 days. Compare with the scheduled
+    // recrawl time, not the first crawl: elapsed time accumulates.
     for (let i = 0; i < 10; i++) {
-      state = nextFreshness(state, false, state.recrawlDue);
+      const previousDue = state.recrawlDue;
+      state = nextFreshness(state, false, previousDue);
+      expect(state.recrawlDue - previousDue).toBeLessThanOrEqual(30 * DAY);
     }
-    expect(state.recrawlDue - NOW).toBeLessThanOrEqual(31 * DAY);
+    expect(state.recrawlDue - (state.recrawlDue - 30 * DAY)).toBe(30 * DAY);
   });
 
   test('a change resets the backoff', () => {
