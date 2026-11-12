@@ -81,7 +81,7 @@ export async function discoverRelays(
   const limit = options.limit ?? 400;
   const verifyTop = options.verifyTop ?? 20;
 
-  let events: NostrEvent[] = [];
+  let events: NostrEvent[];
   try {
     events = await queryFn(MONITOR_RELAYS, [
       { kinds: [RELAY_DISCOVERY_KIND], limit },
