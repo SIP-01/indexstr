@@ -61,10 +61,11 @@ describe('normalizeIndexUrl', () => {
     expect(normalizeIndexUrl('https://example.com/')).toBe('https://example.com/');
   });
 
-  test('duplicate query parameters are preserved deterministically', () => {
-    // Both ?a=1&a=2 values survive (they can be meaningful); order is stable.
+  test('duplicate query parameters are preserved in stable input order', () => {
+    // Duplicate keys may be semantically meaningful. SIP-01 requires a
+    // stable sort by key, so values with equal keys retain their input order.
     expect(normalizeIndexUrl('https://example.com/?a=2&a=1')).toBe(
-      'https://example.com/?a=1&a=2',
+      'https://example.com/?a=2&a=1',
     );
   });
 });
