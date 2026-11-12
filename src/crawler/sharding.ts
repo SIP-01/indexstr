@@ -53,7 +53,7 @@ export const CROSS_SHARD_SAMPLING = 0.25;
 export function fnv1a32(input: string): number {
   let hash = 0x811c9dc5;
   for (let i = 0; i < input.length; i++) {
-    let code = input.charCodeAt(i);
+    const code = input.charCodeAt(i);
     // Encode non-BMP code points as their UTF-16 surrogate pair values;
     // all realistic URL characters are BMP after normalization anyway.
     hash ^= code & 0xff;
