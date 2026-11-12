@@ -228,8 +228,8 @@ export function classifyDocType(parsed: ParsedPage, url: string): DocType {
   if (og === 'product') return 'product';
 
   // URL-shape heuristics (deliberately conservative).
-  let pathname = '/';
-  let hostname = '';
+  let pathname: string;
+  let hostname: string;
   try {
     const u = new URL(url);
     pathname = u.pathname.toLowerCase();
