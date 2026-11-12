@@ -3,7 +3,7 @@
 Indexstr is a **browser-based web indexer** (a [Crawlstr](https://github.com/NostrDanish/Crwalstr) fork)
 that ships with **curated URL collections** and publishes to the **shared SIP-01
 (Search Index Protocol) index** on Nostr. It implements the **canonical SIP-01
-specification v1.2** — [github.com/NostrDanish/SIP-01](https://github.com/NostrDanish/SIP-01)
+specification v1.3** — [github.com/NostrDanish/SIP-01](https://github.com/NostrDanish/SIP-01)
 (`public/spec/SIP-01.md`) — byte-compatibly with
 [0xSearchstr](https://github.com/NostrDanish/0xSearchstr),
 [0xPresearchstr](https://github.com/NostrDanish/0xPresearchstr),
