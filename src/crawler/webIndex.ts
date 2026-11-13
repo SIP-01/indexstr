@@ -2,6 +2,10 @@
  * SIP-01 (Search Index Protocol) — Indexstr publisher implementation.
  * Canonical spec: https://github.com/NostrDanish/SIP-01 (public/spec/SIP-01.md)
  *
+ * Implements SIP-01 v1.3 optional `role`/repeatable `proto` extension tags
+ * and the optional NIP-01 `a` pointer to a kind-39698 capability announcement.
+ * Kind 39697 and wire schema `v=1` remain unchanged.
+ *
  * Byte-compatible with the canonical reference port
  * (SIP-01 repo, src/lib/sip01-utils.ts), which is itself byte-compatible with:
  *   - 0xSearchstr / UNCAGED-ENGINE  src/lib/webIndex.ts   (publisher/reader)
