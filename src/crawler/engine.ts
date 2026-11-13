@@ -607,7 +607,7 @@ export class CrawlerEngine {
     else this.stats.viaDirect++;
     this.stats.queueSize = await getQueueSize();
 
-    // Publish SIP-01 v1.2 observation to the shared index (kind 39697).
+    // Publish SIP-01 v1.3 observation to the shared index (kind 39697, v=1).
     // Canonical spec: https://github.com/NostrDanish/SIP-01
     // Recrawls republish even when unchanged: same d/x, fresh created_at —
     // the network's "still alive" signal. When no relay accepts it, the
