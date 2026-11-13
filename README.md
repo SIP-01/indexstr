@@ -217,7 +217,7 @@ Indexstr publishes **SIP-01 (Search Index Protocol)** events — the same protoc
 | `type` | Extension registry — `repository` for GitHub/GitLab, else `page` |
 | `alt` | Human-readable description (the `alt` convention, spec §12.3) |
 
-Full schema documentation: [NIP.md](NIP.md) · Canonical spec: [SIP-01 v1.2](https://github.com/NostrDanish/SIP-01/blob/main/public/spec/SIP-01.md)
+Full schema documentation: [NIP.md](NIP.md) · Canonical spec: [SIP-01 v1.3](https://github.com/SIP-01/SIP-01/blob/main/public/spec/SIP-01.md)
 
 ### Relay Pool
 
