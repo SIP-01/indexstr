@@ -1,7 +1,7 @@
 /**
  * Index publisher — signs and publishes SIP-01 web index observations
  * (kind 39697). Canonical spec: https://github.com/NostrDanish/SIP-01
- * (public/spec/SIP-01.md, v1.2).
+ * (public/spec/SIP-01.md, v1.3; kind 39697 wire schema v=1).
  *
  * Every observation is signed by THIS DEVICE's dedicated indexer identity
  * (indexerIdentity.ts) — never the user's personal Nostr key, and

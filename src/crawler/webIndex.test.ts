@@ -96,7 +96,7 @@ describe('contentHash', () => {
 
 /**
  * Rule zero: byte-compatibility. The exact §13 test vectors from the
- * canonical spec (v1.2) — if these pass, our events deduplicate against
+ * canonical spec (v1.3) — if these pass, our events deduplicate against
  * every other implementation in the ecosystem (0xSearchstr, UNCAGED-ENGINE,
  * Crawlstr, UNCAGED Index Relay).
  */
