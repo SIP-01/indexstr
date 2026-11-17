@@ -10,6 +10,15 @@ specification v1.3** — [github.com/NostrDanish/SIP-01](https://github.com/Nost
 [UNCAGED-ENGINE](https://github.com/NostrDanish/UNCAGED-ENGINE), and the
 [UNCAGED Index Relay](https://github.com/NostrDanish/UNCAGED-Index-Relay).
 
+## Optional v1.3 capability hints
+
+The publisher uses the v1.3-aware `src/crawler/webIndex.ts` builder, which
+accepts optional `role`, repeatable `proto`, and an optional NIP-01 `a`
+pointer to a kind-39698 listing. The normal Indexstr v1 crawl flow emits
+ordinary page observations and does not publish kind-39698 capability
+announcements. Do not confuse the crawler heartbeat's own `v` value with
+the kind-39697 schema version: web observations always use `v="1"`.
+
 ## Protocol Compatibility
 
 | Schema | Kind | Type | Status |
@@ -116,10 +125,10 @@ public metadata."*
   "created_at": 1786250000,
   "content": "{\"title\":\"Example Page\",\"description\":\"A page about...\",\"image\":\"https://example.com/og.jpg\"}",
   "tags": [
-    ["d", "widx:9f86d081884c7d659a2feaa0c55ad015"],
+    ["d", "widx:3641c5f2274c5471278ab5bf1df6d185"],
     ["u", "https://example.com/page"],
     ["l", "en"],
-    ["x", "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"],
+    ["x", "13c3940b2829e9397d43d54f0145c6b3f792ebbe13674ac6e5de1b354a1b3e7a"],
     ["v", "1"],
     ["published", "1786200000"],
     ["source", "indexstr/1"],
@@ -277,7 +286,7 @@ Any SIP-01 compatible search engine can read Indexstr's observations:
 ```json
 {
   "kinds": [39697],
-  "#d": ["widx:9f86d081884c7d659a2feaa0c55ad015"]
+  "#d": ["widx:3641c5f2274c5471278ab5bf1df6d185"]
 }
 ```
 
